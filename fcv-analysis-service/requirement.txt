@@ -1,0 +1,60 @@
+fair-contribution-view-backend/
+│
+├── cmd/
+│   ├── api/
+│   │   └── main.go
+│   └── worker/
+│       └── main.go
+│
+├── internal/
+│   ├── config/
+│   ├── db/
+│   ├── github/
+│   │   ├── client.go
+│   │   ├── repository.go
+│   │   ├── commits.go
+│   │   ├── pull_requests.go       NEW
+│   │   ├── reviews.go             NEW
+│   │   └── issues.go              NEW
+│   │
+│   ├── ingestion/                 NEW
+│   │   └── identity.go            NEW
+│   │
+│   ├── processor/                 NEW
+│   │   ├── noise_filter.go        NEW
+│   │   ├── diff_analyzer.go       NEW
+│   │   └── metrics.go             NEW
+│   │
+│   ├── scoring/                   NEW
+│   │   ├── weights.go             NEW
+│   │   ├── normalization.go       NEW
+│   │   └── calculator.go          NEW
+│   │
+│   ├── reports/                   NEW
+│   │   └── generator.go           NEW
+│   │
+│   ├── handlers/
+│   ├── queue/
+│   ├── server/
+│   └── worker/
+│       └── ingest.go
+│
+├── ai-service/
+│   └── app/
+│       ├── main.py
+│       ├── classifier.py          NEW
+│       ├── review_analyzer.py     NEW
+│       ├── schemas.py             NEW
+│       └── prompts.py             NEW
+│
+├── migrations/
+│   ├── 001_init.sql
+│   └── 002_github_activity.sql    NEW
+│
+├── tests/                         NEW
+├── Dockerfile
+├── docker-compose.yml
+├── go.mod
+├── go.sum
+├── .env
+└── README.md
