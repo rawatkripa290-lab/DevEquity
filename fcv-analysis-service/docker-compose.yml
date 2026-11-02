@@ -33,16 +33,16 @@ services:
       context: ./ai-service
       dockerfile: Dockerfile
     ports:
-      - "8000:8000"
+      - "8001:8000"
 
   postgres:
     image: postgres:17-alpine
     environment:
-      POSTGRES_DB: fairview
       POSTGRES_USER: fairview
       POSTGRES_PASSWORD: fairview_dev_password
-    ports:
-      - "5432:5432"
+      POSTGRES_DB: fairview
+    expose:
+      - "5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
       - ./migrations:/docker-entrypoint-initdb.d:ro
@@ -54,8 +54,8 @@ services:
 
   redis:
     image: redis:7-alpine
-    ports:
-      - "6379:6379"
+    expose:
+      - "6379"
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
       interval: 5s
@@ -64,3 +64,5 @@ services:
 
 volumes:
   pgdata:
+
+ 

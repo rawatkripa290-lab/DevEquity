@@ -3,9 +3,10 @@ package worker
 import (
 	"context"
 	"fmt"
-	"github.com/jackc/pgx/v5"
 	"strings"
 	"time"
+
+	"github.com/jackc/pgx/v5"
 
 	"github.com/hibiken/asynq"
 	"github.com/jackc/pgx/v5/pgxpool"
@@ -96,7 +97,12 @@ func (w *IngestWorker) Handle(ctx context.Context, task *asynq.Task) error {
 		}
 		batch := make([]ai.Commit, 0, end-start)
 		for _, item := range commits[start:end] {
-			batch = append(batch, ai.Commit{SHA: item.SHA, Message: item.Commit.Message})
+			batch = append(batch, ai.Commit{
+				SHA:         item.SHA,
+				Message:     item.Commit.Message,
+				Files:       []string{},
+				DiffSummary: "",
+			})
 		}
 		var results []ai.Result
 		if w.AI != nil {
@@ -110,6 +116,9 @@ func (w *IngestWorker) Handle(ctx context.Context, task *asynq.Task) error {
 				}
 			}
 		} else {
+			if err != nil {
+				fmt.Printf("AI classification failed; using Go fallback: %v\n", err)
+			}
 			for _, item := range commits[start:end] {
 				category := processor.ClassifyCommit(item.Commit.Message, nil)
 				_, err = w.DB.Exec(ctx, `UPDATE commits SET category=$3,classification_confidence=$4,classification_explanation=$5 WHERE analysis_id=$1 AND sha=$2`, payload.AnalysisID, item.SHA, string(category), 0.45, "Go heuristic fallback; no diff files were analyzed.")
