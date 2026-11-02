@@ -5,12 +5,12 @@ import (
 	"log"
 
 	"github.com/hibiken/asynq"
-	"github.com/yourusername/fair-contribution-view/backend/internal/ai"
-	"github.com/yourusername/fair-contribution-view/backend/internal/config"
-	"github.com/yourusername/fair-contribution-view/backend/internal/db"
-	"github.com/yourusername/fair-contribution-view/backend/internal/github"
-	"github.com/yourusername/fair-contribution-view/backend/internal/queue"
-	"github.com/yourusername/fair-contribution-view/backend/internal/worker"
+	"github.com/rawatkripa290-lab/DevEquity/fcv-analysis-service/internal/ai"
+	"github.com/rawatkripa290-lab/DevEquity/fcv-analysis-service/internal/config"
+	"github.com/rawatkripa290-lab/DevEquity/fcv-analysis-service/internal/db"
+	"github.com/rawatkripa290-lab/DevEquity/fcv-analysis-service/internal/github"
+	"github.com/rawatkripa290-lab/DevEquity/fcv-analysis-service/internal/queue"
+	"github.com/rawatkripa290-lab/DevEquity/fcv-analysis-service/internal/worker"
 )
 
 func main() {

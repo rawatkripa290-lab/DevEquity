@@ -9,13 +9,13 @@ import (
 
 	"github.com/hibiken/asynq"
 	"github.com/jackc/pgx/v5/pgxpool"
-	"github.com/yourusername/fair-contribution-view/backend/internal/ai"
-	"github.com/yourusername/fair-contribution-view/backend/internal/github"
-	"github.com/yourusername/fair-contribution-view/backend/internal/ingestion"
-	"github.com/yourusername/fair-contribution-view/backend/internal/processor"
-	"github.com/yourusername/fair-contribution-view/backend/internal/queue"
-	"github.com/yourusername/fair-contribution-view/backend/internal/reports"
-	"github.com/yourusername/fair-contribution-view/backend/internal/scoring"
+	"github.com/rawatkripa290-lab/DevEquity/fcv-analysis-service/internal/ai"
+	"github.com/rawatkripa290-lab/DevEquity/fcv-analysis-service/internal/github"
+	"github.com/rawatkripa290-lab/DevEquity/fcv-analysis-service/internal/ingestion"
+	"github.com/rawatkripa290-lab/DevEquity/fcv-analysis-service/internal/processor"
+	"github.com/rawatkripa290-lab/DevEquity/fcv-analysis-service/internal/queue"
+	"github.com/rawatkripa290-lab/DevEquity/fcv-analysis-service/internal/reports"
+	"github.com/rawatkripa290-lab/DevEquity/fcv-analysis-service/internal/scoring"
 )
 
 type IngestWorker struct {

@@ -9,8 +9,8 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/hibiken/asynq"
 	"github.com/jackc/pgx/v5/pgxpool"
-	"github.com/yourusername/fair-contribution-view/backend/internal/github"
-	"github.com/yourusername/fair-contribution-view/backend/internal/queue"
+	"github.com/rawatkripa290-lab/DevEquity/fcv-analysis-service/internal/github"
+	"github.com/rawatkripa290-lab/DevEquity/fcv-analysis-service/internal/queue"
 )
 
 type AnalysisHandler struct {

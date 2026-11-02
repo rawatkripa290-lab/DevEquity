@@ -9,12 +9,12 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/yourusername/fair-contribution-view/backend/internal/config"
-	"github.com/yourusername/fair-contribution-view/backend/internal/db"
-	"github.com/yourusername/fair-contribution-view/backend/internal/github"
-	"github.com/yourusername/fair-contribution-view/backend/internal/handlers"
-	"github.com/yourusername/fair-contribution-view/backend/internal/queue"
-	"github.com/yourusername/fair-contribution-view/backend/internal/server"
+	"github.com/rawatkripa290-lab/DevEquity/fcv-analysis-service/internal/config"
+	"github.com/rawatkripa290-lab/DevEquity/fcv-analysis-service/internal/db"
+	"github.com/rawatkripa290-lab/DevEquity/fcv-analysis-service/internal/github"
+	"github.com/rawatkripa290-lab/DevEquity/fcv-analysis-service/internal/handlers"
+	"github.com/rawatkripa290-lab/DevEquity/fcv-analysis-service/internal/queue"
+	"github.com/rawatkripa290-lab/DevEquity/fcv-analysis-service/internal/server"
 )
 
 func main() {

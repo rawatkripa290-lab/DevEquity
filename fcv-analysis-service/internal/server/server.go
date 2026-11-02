@@ -2,7 +2,7 @@ package server
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/yourusername/fair-contribution-view/backend/internal/handlers"
+	"github.com/rawatkripa290-lab/DevEquity/fcv-analysis-service/internal/handlers"
 )
 
 func NewRouter(h *handlers.AnalysisHandler) *gin.Engine {

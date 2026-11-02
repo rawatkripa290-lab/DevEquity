@@ -1,4 +1,4 @@
-module github.com/yourusername/fair-contribution-view/backend
+module github.com/rawatkripa290-lab/DevEquity/fcv-analysis-service
 
 go 1.23
 
