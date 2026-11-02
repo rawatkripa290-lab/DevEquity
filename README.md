@@ -490,6 +490,18 @@ git push origin feature/your-feature-name
 ```
 
 ---
+## 👩‍💻 Project Contributors
+
+DevEquity is built through collaboration, shared ideas, and engineering efforts.
+
+| Contributor | GitHub Profile | Contribution |
+|---|---|---|
+| **Pravigya Negi** | https://github.com/alilia2007 | Backend development, integration, analysis workflow and documentation |
+| **Kripa Rawat** | https://github.com/rawatkripa290-lab| Frontend, Project development, architecture and collaborative implementation |
+
+### 🌟 Built Together
+
+We believe great engineering comes from collaboration, experimentation, and continuous learning.
 
 ## 🌟 Support the Project
 
