@@ -25,8 +25,8 @@ function Charts({ contributors = [] }) {
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-      <div className="rounded-xl border border-slate-800 bg-slate-900 p-6">
-        <h2 className="text-xl font-bold text-white mb-6">
+      <div className="rounded-xl border border-slate-800 bg-white p-6">
+        <h2 className="text-xl font-bold text-blue-900 mb-6">
           Contributor Activity
         </h2>
 
@@ -43,8 +43,8 @@ function Charts({ contributors = [] }) {
         </div>
       </div>
 
-      <div className="rounded-xl border border-slate-800 bg-slate-900 p-6">
-        <h2 className="text-xl font-bold text-white mb-6">
+      <div className="rounded-xl border border-slate-800 bg-white p-6">
+        <h2 className="text-xl font-bold text-blue-900 mb-6">
           Fair Contribution Scores
         </h2>
 

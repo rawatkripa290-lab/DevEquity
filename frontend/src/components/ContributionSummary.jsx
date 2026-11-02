@@ -53,11 +53,10 @@ function ContributionSummary({ contributors = [] }) {
         return (
           <div
             key={item.title}
-            className="rounded-xl border border-blue-600 bg-blue-400 p-6"
+            className="rounded-xl  bg-white p-6"
           >
             <div className="flex items-center justify-between">
               <p className="text-medium font-semibold text-gray-900">{item.title}</p>
-              <Icon size={22} className="text-blue-400" />
             </div>
 
             <h3 className="mt-4 break-words text-2xl font-bold text-blue-900">

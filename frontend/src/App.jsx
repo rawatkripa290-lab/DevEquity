@@ -1,132 +1,106 @@
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Navbar from "./components/NavBar";
 import Hero from "./components/Hero";
 import RepoInput from "./components/RepoInput";
 import Dashboard from "./components/Dashboard";
-import {
-  analyzeRepository,
-  getAnalysis,
-  getReport
-} from "./services/api";
+import About from "./components/About";
+import { analyzeRepository } from "./services/api";
 
 function App() {
   const [analysisData, setAnalysisData] = useState(null);
-  const [analysisId, setAnalysisId] = useState(null);
   const [status, setStatus] = useState("idle");
-  const [progress, setProgress] = useState({});
   const [error, setError] = useState("");
 
-  const loading = ["queued", "processing"].includes(status);
+  const loading = status === "processing";
 
   const handleAnalyze = async (repoUrl) => {
     setError("");
     setAnalysisData(null);
-    setProgress({});
-    setStatus("queued");
+    setStatus("processing");
 
     try {
       const result = await analyzeRepository(repoUrl);
-      setAnalysisId(result.analysis_id);
-      setStatus(result.status || "queued");
+
+      console.log("Backend Response:", result);
+
+      if (!result || typeof result !== "object" || Object.keys(result).length === 0) {
+        throw new Error("The backend returned empty repository data.");
+      }
+
+      setAnalysisData(result);
+      setStatus("completed");
+
     } catch (err) {
-      setStatus("failed");
-      setError(
+      console.error("Analysis Error:", err.response?.data || err);
+
+      const errorMessage =
+        err.response?.data?.detail ||
         err.response?.data?.error ||
-        "Unable to start repository analysis."
-      );
+        err.message ||
+        "Unable to analyze repository. Please try again.";
+
+      setStatus("failed");
+      setError(errorMessage);
     }
   };
-
-  useEffect(() => {
-    if (!analysisId || !loading) return;
-
-    let active = true;
-    let timer;
-
-    const poll = async () => {
-      try {
-        const result = await getAnalysis(analysisId);
-
-        if (!active) return;
-
-        setStatus(result.status);
-        setProgress(result.progress || {});
-
-        if (result.status === "completed") {
-          const report = await getReport(analysisId);
-          if (active) setAnalysisData(report);
-          return;
-        }
-
-        if (result.status === "failed") {
-          setError(result.error || "Analysis failed.");
-          return;
-        }
-
-        timer = setTimeout(poll, 3000);
-      } catch (err) {
-        if (!active) return;
-
-        setError(
-          err.response?.data?.error ||
-          "Unable to retrieve analysis status."
-        );
-        setStatus("failed");
-      }
-    };
-
-    poll();
-
-    return () => {
-      active = false;
-      clearTimeout(timer);
-    };
-  }, [analysisId, loading]);
 
   return (
     <div className="min-h-screen pixel-desktop">
       <Navbar />
 
       {!analysisData && (
-        <Hero>
-          <RepoInput
-            onAnalyze={handleAnalyze}
-            loading={loading}
-          />
+        <div id="home">
+          <Hero>
+            <RepoInput
+              onAnalyze={handleAnalyze}
+              loading={loading}
+            />
+          </Hero>
+        </div>
+      )}
 
-          {loading && (
-            <div className="pixel-window mt-8 mx-auto max-w-xl p-5">
-              <h2 className="pixel-heading">ANALYSIS.EXE</h2>
-              <p>
-                {progress.stage || status}
-              </p>
-              <p>
-                {progress.completed || 0} / {progress.total || "?"}
-              </p>
-              <div className="pixel-progress">
-                <div
-                  style={{
-                    width: progress.total
-                      ? `${(progress.completed / progress.total) * 100}%`
-                      : "0%"
-                  }}
-                />
-              </div>
-            </div>
-          )}
-        </Hero>
+      {loading && (
+        <p className="mt-6 text-center">
+          Analyzing repository... Please wait.
+        </p>
       )}
 
       {error && (
-        <p className="text-center mt-6 px-4" role="alert">
-          {error}
-        </p>
+        <div
+          className="fixed top-24 right-6 z-[9999] w-[90%] max-w-sm rounded-xl border border-red-200 bg-white p-4 shadow-2xl"
+          role="alert"
+        >
+          <div className="flex items-start gap-3">
+            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-red-100 text-red-600">
+              !
+            </div>
+
+            <div>
+              <h3 className="font-bold text-red-700">
+                Analysis Failed
+              </h3>
+              <p className="mt-1 text-sm text-slate-600">
+                {error}
+              </p>
+            </div>
+
+            <button
+              onClick={() => setError("")}
+              className="ml-auto text-xl text-slate-400 hover:text-slate-700"
+              aria-label="Close error notification"
+            >
+              &times;
+            </button>
+          </div>
+        </div>
       )}
 
       {analysisData && (
         <Dashboard analysisData={analysisData} />
       )}
+
+      {!analysisData && <About />}
     </div>
   );
 }

@@ -33,14 +33,14 @@ function StatsCard({ totalCommits, totalContributors, totalPRs, totalIssues }) {
         return (
           <div
             key={index}
-            className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
+            className="rounded-xl border border-slate-200 bg-blue-400 p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
           >
             <div className="flex items-center justify-between">
-              <p className="text-medium text-slate-900">{stat.title}</p>
+              <p className="text-medium text-blue-900">{stat.title}</p>
             
             </div>
 
-            <h2 className="mt-3 text-2xl font-bold text-slate-900">
+            <h2 className="mt-3 text-2xl font-bold text-blue-900">
               {stat.value ?? 0}
             </h2>
           </div>
