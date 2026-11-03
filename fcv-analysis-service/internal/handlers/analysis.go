@@ -53,9 +53,10 @@ func (h *AnalysisHandler) Create(c *gin.Context) {
 		RETURNING id
 	`, repo.ID, repo.Owner.Login, repo.Name, repo.FullName, repo.DefaultBranch).Scan(&repositoryID)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "could not save repository"})
-		return
-	}
+    log.Printf("DATABASE ERROR while saving repository: %v", err)
+    c.JSON(http.StatusInternalServerError, gin.H{"error": "could not save repository"})
+    return
+}
 
 	err = h.DB.QueryRow(ctx, `
 		INSERT INTO analyses (repository_id, status)
