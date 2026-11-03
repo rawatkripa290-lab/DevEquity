@@ -29,7 +29,21 @@ type Report struct {
 
 func Generate(ctx context.Context, db *pgxpool.Pool, analysisID string) (Report, error) {
 	r := Report{AnalysisID: analysisID, GeneratedAt: time.Now().UTC(), ScoreVersion: "fcv-1.0", Interpretation: "Scores are explainable activity proxies, not measurements of human effort, skill, or individual worth.", Limitations: []string{"Private or unavailable activity may be missing.", "Commit counts and code volume do not establish effort or impact.", "Classification uses deterministic heuristics unless an external model is explicitly configured."}, Contributors: []Contributor{}}
-	rows, err := db.Query(ctx, `SELECT c.github_login,c.display_name, m.commit_count,m.pr_count,m.review_count,m.issue_count,m.score,m.confidence FROM contributor_metrics m JOIN contributors c ON c.id=m.contributor_id WHERE m.analysis_id=$1 ORDER BY m.score DESC`, analysisID)
+	rows, err := db.Query(ctx, `
+    SELECT
+        COALESCE(c.github_login, ''),
+        COALESCE(c.display_name, ''),
+        m.commit_count,
+        m.pr_count,
+        m.review_count,
+        m.issue_count,
+        m.score,
+        m.confidence
+    FROM contributor_metrics m
+    JOIN contributors c ON c.id = m.contributor_id
+    WHERE m.analysis_id = $1
+    ORDER BY m.score DESC
+`, analysisID)
 	if err != nil {
 		return r, err
 	}
