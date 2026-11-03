@@ -78,12 +78,15 @@ func (h *AnalysisHandler) Create(c *gin.Context) {
 	_, err = h.Queue.Enqueue(asynq.NewTask(queue.TypeIngestRepository, payload),
 		asynq.MaxRetry(3), asynq.Timeout(10*time.Minute))
 	if err != nil {
-		_, _ = h.DB.Exec(context.Background(),
-			`UPDATE analyses SET status='failed', error_message='queue unavailable' WHERE id=$1`,
-			analysisID)
-		c.JSON(http.StatusServiceUnavailable, gin.H{"error": "analysis queue unavailable"})
-		return
-	}
+    log.Printf("REDIS QUEUE ERROR: %v", err)
+
+    _, _ = h.DB.Exec(context.Background(),
+        `UPDATE analyses SET status='failed', error_message='queue unavailable' WHERE id=$1`,
+        analysisID)
+
+    c.JSON(http.StatusServiceUnavailable, gin.H{"error": "analysis queue unavailable"})
+    return
+}
 	c.JSON(http.StatusAccepted, gin.H{
 		"analysis_id": analysisID,
 		"status":      "queued",
