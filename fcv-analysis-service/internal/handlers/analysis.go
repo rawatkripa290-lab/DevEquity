@@ -39,10 +39,14 @@ func (h *AnalysisHandler) Create(c *gin.Context) {
 	ctx, cancel := context.WithTimeout(c.Request.Context(), 15*time.Second)
 	defer cancel()
 	repo, err := h.GitHub.GetRepository(ctx, owner, name)
-	if err != nil {
-		c.JSON(http.StatusBadGateway, gin.H{"error": "could not retrieve repository from GitHub"})
-		return
-	}
+if err != nil {
+    log.Printf("GITHUB REPOSITORY ERROR: %v", err)
+
+    c.JSON(http.StatusBadGateway, gin.H{
+        "error": "could not retrieve repository from GitHub",
+    })
+    return
+}
 
 	var repositoryID, analysisID string
 	err = h.DB.QueryRow(ctx, `
